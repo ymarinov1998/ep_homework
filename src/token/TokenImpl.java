@@ -7,11 +7,11 @@ public class TokenImpl implements Token<TokenType> {
     private final int line;
     private final int position;
 
-    public TokenImpl(TokenType tokenType, String text, int line, int position) {
+    public TokenImpl(TokenType tokenType, String text, int position, int line) {
         this.tokenType = tokenType;
         this.text = text;
-        this.line = line;
         this.position = position;
+        this.line = line;
     }
 
     public TokenImpl(TokenType tokenType, int position, int lineNumber) {
@@ -43,4 +43,13 @@ public class TokenImpl implements Token<TokenType> {
         return position;
     }
 
+    @Override
+    public String toString() {
+        return "TokenImpl{" +
+                "tokenType=" + tokenType +
+                ", text='" + text + '\'' +
+                ", line=" + line +
+                ", position=" + position +
+                '}';
+    }
 }
