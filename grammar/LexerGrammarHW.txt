@@ -41,7 +41,7 @@ OR                      :   'or'
 
 LSQUARE                 :   '['
 RSQUARE                 :   ']'
-LBRACKER                :   '{'
+LBRACKET                :   '{'
 RBRACKET                :   '}'
 LPAREN                  :   '('
 RPAREN                  :   ')'

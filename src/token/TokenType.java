@@ -11,7 +11,7 @@ public enum TokenType {
     INCREMENT("++"), DECREMENT("--"), ASSIGNMENT_ADD("+="),
     ASSIGNMENT_DIFF("-="), ASSIGNMENT_PROD("*="), ASSIGNMENT_QUOT("/="),
     NOT("not"), AND("and"), OR("or"), LSQUARE("["), RSQUARE("]"),
-    LBRACKER("{"), RBRACKET("}"), LPAREN("("), RPAREN(")"), SEMICOLON(";"),
+    LBRACKET("{"), RBRACKET("}"), LPAREN("("), RPAREN(")"), SEMICOLON(";"),
     COMMA(","), IDENTIFIER("identifier"), OTHER("");
 
     public final String value;
