@@ -12,7 +12,7 @@ public enum TokenType {
     ASSIGNMENT_DIFF("-="), ASSIGNMENT_PROD("*="), ASSIGNMENT_QUOT("/="),
     NOT("not"), AND("and"), OR("or"), LSQUARE("["), RSQUARE("]"),
     LBRACKET("{"), RBRACKET("}"), LPAREN("("), RPAREN(")"), SEMICOLON(";"),
-    COMMA(","), IDENTIFIER("identifier"), OTHER("");
+    COMMA(","), IDENTIFIER("identifier"), INT_LITERAL("int literal"), OTHER("");
 
     public final String value;
 
