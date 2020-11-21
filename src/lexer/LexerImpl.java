@@ -140,7 +140,7 @@ public class LexerImpl implements Lexer<TokenType> {
     private void printTokens() {
         Token<TokenType> token;
         while ((token = getNextToken()) != null) {
-            System.out.printf("[%s : %s]\n", token.getTokenName(), token.getTokenText());
+            System.out.printf("[%s : '%s']\n", token.getTokenName(), token.getTokenText());
         }
     }
 
