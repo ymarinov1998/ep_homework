@@ -10,7 +10,7 @@ public class ScannerImpl implements InputScanner {
     private int currentPosition = -1;
     private int currentLine = 0;
     private String line;
-    private boolean hasInput = true;
+    private boolean isDoneReading = false;
     private Scanner scanner;
 
     public ScannerImpl(String filePath) throws IOException {
@@ -39,21 +39,25 @@ public class ScannerImpl implements InputScanner {
         currentPosition++;
         if (currentPosition >= line.length()) {
             currentPosition = 0;
-            readLine();
+            if (!scanner.hasNextLine()) {
+                isDoneReading = true;
+                currentCharacter = '\uffff';
+                return;
+            }
+            else {
+                readLine();
+            }
         }
         currentCharacter = line.charAt(currentPosition);
     }
 
     public boolean hasInput() {
-        return hasInput;
+        return !isDoneReading;
     }
 
     private void readLine() {
-        if (!scanner.hasNextLine()) {
-            hasInput = false;
-            return;
-        }
         line = scanner.nextLine();
+        currentLine++;
         if (line.isEmpty())
             readLine();
     }
