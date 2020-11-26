@@ -6,7 +6,7 @@ block -> LBRACKET ( statement )* RBRACKET
 primitive_type -> INT | BOOL
 array_type -> primitive_type LSQUARE RSQUARE
 statement -> simple_statement SEMICOLON | compound_statement
-simple_statement -> variable_definition | assignment | unary_operation | return_statement
+simple_statement -> variable_definition | assignment | unary_operation | return_statement | function_call
 compound_statement -> if_statement | while_statement | for_statement | switch_statement
 variable_definition -> type assignment
 assignment -> variable ( BECOMES assignable | special_assignment_operator expression )
@@ -16,14 +16,14 @@ return_statement -> RETURN expression ( IF expression ELSE expression )?
 if_statement -> IF expression block ( ELSEIF expression block )* ( ELSE block )?
 while_statement -> WHILE expression block
 for_statement -> FOR ( LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN | type IDENTIFIER IN IDENTIFIER ) block
-switch_statement -> SWITCH LPAREN IDENTIFIER RPAREN ( CASE expression block )* DEFAULT block
+switch_statement -> SWITCH LPAREN IDENTIFIER RPAREN LBRACKET ( CASE expression block )* DEFAULT block RBRACKET
 variable -> IDENTIFIER | index_variable
 assignable -> array_initialization | expression
 expression -> simple_expression | simple_expression relational_operator simple_expression
 index_variable -> IDENTIFIER LSQUARE expression RSQUARE
 array_initialization -> primitive_type LSQUARE expression RSQUARE
 simple_expression -> signed_term ( ( additive_operator | OR )) signed_term)*
-relational_operator -> EQUAL | NOT_EQUAL | GREATER_THAN | LESS_THAN | GREATER_THAN_OR_EQUAL | LESS_THAN_ON_EQUAL
+relational_operator -> EQUAL | NOT_EQUAL | GREATER_THAN | LESS_THAN | GREATER_THAN_OR_EQUAL | LESS_THAN_OR_EQUAL
 signed_term -> (unary_operator)? term
 additive_operator -> PLUS | MINUS
 unary_operator -> NOT | MINUS
