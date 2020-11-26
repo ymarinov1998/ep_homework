@@ -50,6 +50,87 @@ public enum TokenType {
         keywords.add(TRUE.value);
         keywords.add(FALSE.value);
         keywords.add(IN.value);
+        keywords.add(NOT.value);
+        keywords.add(AND.value);
+        keywords.add(OR.value);
     }
 
+    public static boolean isPrimitiveType(TokenType tokenType) {
+        return tokenType.equals(INT) || tokenType.equals(BOOL);
+    }
+
+    private static final Set<TokenType> compoundStatementTerminals = new HashSet<>();
+
+    static {
+        compoundStatementTerminals.add(IF);
+        compoundStatementTerminals.add(WHILE);
+        compoundStatementTerminals.add(FOR);
+        compoundStatementTerminals.add(SWITCH);
+    }
+
+    public static boolean isStatementTerminal(TokenType tokenType) {
+        return isSimpleStatementTerminal(tokenType) || isCompoundStatementTerminal(tokenType);
+    }
+
+    public static boolean isSimpleStatementTerminal(TokenType tokenType) {
+        return tokenType.equals(IDENTIFIER) || tokenType.equals(RETURN) || isPrimitiveType(tokenType);
+    }
+
+    public static boolean isCompoundStatementTerminal(TokenType tokenType) {
+        return compoundStatementTerminals.contains(tokenType);
+    }
+
+    private static final Set<TokenType> assignmentTerminals = new HashSet<>();
+
+    static {
+        assignmentTerminals.add(BECOMES);
+        assignmentTerminals.add(ASSIGNMENT_ADD);
+        assignmentTerminals.add(ASSIGNMENT_DIFF);
+        assignmentTerminals.add(ASSIGNMENT_PROD);
+        assignmentTerminals.add(ASSIGNMENT_QUOT);
+    }
+
+    public static boolean isAssignmentTerminal(TokenType tokenType) {
+        return assignmentTerminals.contains(tokenType);
+    }
+
+    private static final Set<TokenType> relationalOperators = new HashSet<>();
+
+    static {
+        relationalOperators.add(EQUAL);
+        relationalOperators.add(NOTEQUAL);
+        relationalOperators.add(LESS_THAN);
+        relationalOperators.add(LESS_THAN_OR_EQUAL);
+        relationalOperators.add(GREATER_THAN);
+        relationalOperators.add(GREATER_THAN_OR_EQUAL);
+    }
+
+    public static boolean isRelationalOperator(TokenType tokenType) {
+        return relationalOperators.contains(tokenType);
+    }
+
+    public static boolean isAdditiveOperator(TokenType tokenType) {
+        return tokenType.equals(PLUS) || tokenType.equals(MINUS);
+    }
+
+    public static boolean isUnaryOperator(TokenType tokenType) {
+        return tokenType.equals(NOT) || tokenType.equals(MINUS);
+    }
+
+    public static boolean isMultiplicativeOperator(TokenType tokenType) {
+        return tokenType.equals(MUL) || tokenType.equals(DIV);
+    }
+
+    private static Set<TokenType> factorTerminal = new HashSet<>();
+    static{
+        factorTerminal.add(IDENTIFIER);
+        factorTerminal.add(INT_LITERAL);
+        factorTerminal.add(LPAREN);
+        factorTerminal.add(TRUE);
+        factorTerminal.add(FALSE);
+    }
+
+    public static boolean isFactorTerminal(TokenType tokenType) {
+        return factorTerminal.contains(tokenType);
+    }
 }
