@@ -1,7 +1,7 @@
 package lexer;
 
 import scanner.InputScanner;
-import scanner.ScannerImpl;
+import scanner.InputScannerImpl;
 import token.Token;
 import token.TokenImpl;
 import token.TokenType;
@@ -146,7 +146,7 @@ public class LexerImpl implements Lexer<TokenType> {
 
     public static void main(String[] args) {
         try {
-            LexerImpl lexer = new LexerImpl(new ScannerImpl("resources/test.txt"));
+            LexerImpl lexer = new LexerImpl(new InputScannerImpl("resources/test.txt"));
             lexer.printTokens();
         } catch (Exception e) {
             System.out.println(e.getMessage());
