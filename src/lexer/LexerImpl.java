@@ -1,5 +1,6 @@
 package lexer;
 
+import exceptions.LexicalException;
 import scanner.InputScanner;
 import scanner.InputScannerImpl;
 import token.Token;
@@ -61,7 +62,7 @@ public class LexerImpl implements Lexer<TokenType> {
                 default:
                     if (isLetter(currentCharacter)) return handleIdentifier();
                     if (isDigit(currentCharacter)) return handleIntLiteral();
-                    return BuildTokenAndAdvance(TokenType.OTHER, String.valueOf(currentCharacter));
+                    return BuildTokenAndAdvance(String.valueOf(currentCharacter));
             }
         }
         return null;
@@ -107,9 +108,9 @@ public class LexerImpl implements Lexer<TokenType> {
         return new TokenImpl(tokenType, currentPosition, currentLine);
     }
 
-    private Token<TokenType> BuildTokenAndAdvance(TokenType tokenType, String text) {
+    private Token<TokenType> BuildTokenAndAdvance(String text) {
         scanner.readNextCharacter();
-        return new TokenImpl(tokenType, text, currentPosition, currentLine);
+        return new TokenImpl(TokenType.OTHER, text, currentPosition, currentLine);
     }
 
     private Token<TokenType> handleIntLiteral() {
@@ -121,7 +122,10 @@ public class LexerImpl implements Lexer<TokenType> {
         try {
             Integer.parseInt(digitString.toString());
         } catch (NumberFormatException exception) {
-            // Handle exception
+            throw new LexicalException("Not a valid integer " + digitString.toString() + "." ,
+                    scanner.getCurrentLine(),
+                    scanner.getCurrentPosition(),
+                    exception);
         }
         return new TokenImpl(TokenType.INT_LITERAL, digitString.toString(), currentPosition, currentLine);
     }
@@ -146,7 +150,7 @@ public class LexerImpl implements Lexer<TokenType> {
 
     public static void main(String[] args) {
         try {
-            LexerImpl lexer = new LexerImpl(new InputScannerImpl("resources/test.txt"));
+            LexerImpl lexer = new LexerImpl(new InputScannerImpl("resources/sample_test.txt"));
             lexer.printTokens();
         } catch (Exception e) {
             System.out.println(e.getMessage());
