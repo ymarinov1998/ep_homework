@@ -16,7 +16,7 @@ return_statement -> RETURN expression ( IF expression ELSE expression )?
 if_statement -> IF expression block ( ELSEIF expression block )* ( ELSE block )?
 while_statement -> WHILE expression block
 for_statement -> FOR ( LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN | type IDENTIFIER IN IDENTIFIER ) block
-switch_statement -> SWITCH LPAREN IDENTIFIER RPAREN LBRACKET ( CASE expression block )* DEFAULT block RBRACKET
+switch_statement -> SWITCH LPAREN variable RPAREN LBRACKET ( CASE expression block )* DEFAULT block RBRACKET
 variable -> IDENTIFIER | index_variable
 assignable -> array_initialization | expression
 expression -> simple_expression | simple_expression relational_operator simple_expression
