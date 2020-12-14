@@ -1,0 +1,93 @@
+function A() { }
+
+function A() returns int { }
+
+function A() returns bool { }
+
+function A() returns int {
+    return 1;
+}
+
+function A() returns bool {
+    return true;
+}
+
+function A() {
+    int a = 1;
+    int b = int[1];
+    int[] b = int[5];
+    bool c = true;
+    int d = false;
+    int a = a[3];
+    int a = a[3]+2;
+}
+
+function While() {
+    int a = 3;
+    while (a < 10) {
+        a++;
+    }
+}
+
+function For() returns int {
+    int[] a = int[10];
+    int sum = 0;
+    for (int i=0;i<10;i++) {
+        a[i] = i;
+    }
+    for int i in a  {
+         sum += i;
+    }
+    return sum if sum > 10 else 0;
+}
+
+function isPositive(int number) returns bool {
+    if(number > 0) {
+        return true;
+    }
+    elseif(number < 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function isNegative(int number) returns bool {
+    if(number < 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function isNumberOne(int number) returns bool {
+    switch(number) {
+        case 1 {
+            return true;
+        }
+        default {
+            return false;
+        }
+    }
+}
+
+function Conjunction(bool lhs, bool rhs) returns bool {
+    return lhs and rhs;
+}
+
+function Disjunction(bool lhs, bool rhs) returns bool {
+    return lhs or rhs;
+}
+
+function ExclusiveDisjunction(bool lhs, bool rhs) returns bool {
+    return (lhs and not rhs) or (rhs and not lhs);
+}
+
+
+
+
+
+
+
