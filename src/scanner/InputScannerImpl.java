@@ -2,6 +2,7 @@ package scanner;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class InputScannerImpl implements InputScanner {
@@ -9,13 +10,12 @@ public class InputScannerImpl implements InputScanner {
     private char currentCharacter;
     private int currentPosition = -1;
     private int currentLine = 0;
-    private String line;
+    private String line = "";
     private boolean isDoneReading = false;
     private final Scanner scanner;
 
     public InputScannerImpl(String filePath) throws IOException {
         scanner = new Scanner(new File(filePath));
-        readLine();
         readNextCharacter();
     }
 
@@ -39,26 +39,38 @@ public class InputScannerImpl implements InputScanner {
         currentPosition++;
         if (currentPosition >= line.length()) {
             currentPosition = 0;
-            if (!scanner.hasNextLine()) {
+            var newLine = getNextLine();
+            if (newLine != null) {
+                line = newLine;
+            } else {
                 isDoneReading = true;
                 currentCharacter = '\uffff';
                 return;
-            }
-            else {
-                readLine();
             }
         }
         currentCharacter = line.charAt(currentPosition);
     }
 
+    @Override
     public boolean hasInput() {
         return !isDoneReading;
     }
 
-    private void readLine() {
-        line = scanner.nextLine();
-        currentLine++;
-        if (line.isEmpty())
-            readLine();
+    private String getNextLine() {
+        if (scanner.hasNextLine()) {
+            try {
+                currentLine++;
+                var nextLine = scanner.nextLine();
+                while (nextLine.isEmpty()) {
+                    currentLine++;
+                    nextLine = scanner.nextLine();
+                }
+                return nextLine;
+            } catch (NoSuchElementException exception) {
+                return null;
+            }
+        }
+        return null;
     }
+
 }
