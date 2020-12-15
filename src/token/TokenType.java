@@ -121,7 +121,7 @@ public enum TokenType {
         return tokenType.equals(MUL) || tokenType.equals(DIV);
     }
 
-    private static Set<TokenType> factorTerminal = new HashSet<>();
+    private static final Set<TokenType> factorTerminal = new HashSet<>();
     static{
         factorTerminal.add(IDENTIFIER);
         factorTerminal.add(INT_LITERAL);

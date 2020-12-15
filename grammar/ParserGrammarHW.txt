@@ -27,7 +27,7 @@ relational_operator -> EQUAL | NOT_EQUAL | GREATER_THAN | LESS_THAN | GREATER_TH
 signed_term -> (unary_operator)? term
 additive_operator -> PLUS | MINUS
 unary_operator -> NOT | MINUS
-term -> factor ( ( multiplicative_operator | AND ) ) factor
+term -> factor ( ( multiplicative_operator | AND ) ) signed_term
 factor -> variable | INT_LITERAL | BOOLEAN_LITERAL | LPAREN expression RPAREN | function_call
 multiplicative_operator -> MUL | DIV
 function_call -> IDENTIFIER LPAREN ( actual_parameters )? RPAREN
