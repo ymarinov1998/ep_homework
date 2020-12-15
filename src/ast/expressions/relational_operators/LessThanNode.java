@@ -1,4 +1,4 @@
-package ast.expressions.operators.relational_operators;
+package ast.expressions.relational_operators;
 
 import ast.expressions.ExpressionNode;
 

@@ -4,8 +4,8 @@ import ast.code_structure.BlockNode;
 import ast.expressions.ExpressionNode;
 
 public class ElseIfNode extends ExpressionNode {
-    private ExpressionNode expression;
-    private BlockNode block;
+    private final ExpressionNode expression;
+    private final BlockNode block;
 
     public ElseIfNode(ExpressionNode expression, BlockNode block) {
         this.expression = expression;
@@ -14,6 +14,9 @@ public class ElseIfNode extends ExpressionNode {
 
     @Override
     public void printNode(int tabCount) {
-
+        System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "<elseif>");
+        expression.printNode(tabCount + 1);
+        block.printNode(tabCount + 1);
+        System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</elseif>");
     }
 }
