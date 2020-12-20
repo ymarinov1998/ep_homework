@@ -16,4 +16,10 @@ public class DefaultNode implements Node {
         block.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</default>");
     }
+
+    @Override
+    public String toString() {
+        return block.toStringIndented();
+    }
+
 }

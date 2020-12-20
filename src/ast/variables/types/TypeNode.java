@@ -15,4 +15,9 @@ public class TypeNode implements Node {
     public void printNode(int tabCount) {
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "<type: " + type + (isArray ? "[]>" : ">"));
     }
+
+    @Override
+    public String toString() {
+        return isArray ? "List[" + type + "]" : type;
+    }
 }

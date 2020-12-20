@@ -67,7 +67,8 @@ public class ParserImpl {
             throw new SyntaxException(
                     String.format("Token mismatch! Expected '%s', found '%s'",
                             tokenType.value,
-                            currentToken.getTokenType().value),
+                            currentToken.getTokenType().equals(TokenType.OTHER) ?
+                                    currentToken.getTokenText() : currentToken.getTokenType().value),
                     currentToken);
         }
         currentToken = lexer.getNextToken();
@@ -165,12 +166,12 @@ public class ParserImpl {
         accept(TokenType.IF);
         ifNode.setExpression(expression());
         ifNode.setBlock(block());
+        List<ElseIfNode> elseIfStatements = new ArrayList<>();
         while (currentToken.getTokenType().equals(TokenType.ELSEIF)) {
-            List<ElseIfNode> elseIfStatements = new ArrayList<>();
             accept(TokenType.ELSEIF);
             elseIfStatements.add(new ElseIfNode(expression(), block()));
-            ifNode.setElseIfStatements(elseIfStatements);
         }
+        ifNode.setElseIfStatements(elseIfStatements);
         if (currentToken.getTokenType().equals(TokenType.ELSE)) {
             accept(TokenType.ELSE);
             ifNode.setElseStatement(new ElseNode(block()));
@@ -480,12 +481,17 @@ public class ParserImpl {
         programNode.printNode(0);
     }
 
+    public void printPythonCode() {
+        System.out.println(programNode);
+    }
+
     public static void main(String[] args) throws IOException {
-        InputScanner scanner = new InputScannerImpl("resources/parser_test.txt");
+        InputScanner scanner = new InputScannerImpl("resources/test.txt");
         Lexer<TokenType> lexer = new LexerImpl(scanner);
         ParserImpl parser = new ParserImpl(lexer);
         parser.tryParse();
-        parser.printTree();
+        //parser.printTree();
+        parser.printPythonCode();
     }
 }
 

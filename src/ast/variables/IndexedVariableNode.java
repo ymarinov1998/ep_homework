@@ -17,4 +17,9 @@ public class IndexedVariableNode extends VariableNode {
         index.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</indexed variable>");
     }
+
+    @Override
+    public String toString() {
+        return variableName + "[" + index + "]";
+    }
 }

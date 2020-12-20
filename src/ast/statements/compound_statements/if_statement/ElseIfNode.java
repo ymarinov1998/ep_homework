@@ -19,4 +19,9 @@ public class ElseIfNode extends ExpressionNode {
         block.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</elseif>");
     }
+
+    @Override
+    public String toString() {
+        return "elif " + expression + ":" + block.toStringIndented();
+    }
 }

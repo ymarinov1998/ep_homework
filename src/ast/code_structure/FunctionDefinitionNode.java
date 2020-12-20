@@ -37,4 +37,20 @@ public class FunctionDefinitionNode implements Node {
         blockNode.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</function>");
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\ndef ").append(functionName);
+        if (formalParameters != null)
+            sb.append(formalParameters);
+        else
+            sb.append("()");
+        if (returnTypeNode != null)
+            sb.append(" -> ").append(returnTypeNode);
+        sb.append(":");
+        sb.append(blockNode);
+        sb.append("\n");
+        return sb.toString();
+    }
 }

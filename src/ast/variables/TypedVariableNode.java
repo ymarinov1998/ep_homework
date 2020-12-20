@@ -19,4 +19,13 @@ public class TypedVariableNode implements Node {
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount + 1)), "<identifier: " + variableName + ">");
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</typed variable>");
     }
+
+    @Override
+    public String toString() {
+        return variableName + ": " + variableType;
+    }
+
+    public String getVariableName() {
+        return variableName;
+    }
 }

@@ -21,4 +21,17 @@ public class SimpleAssignmentNode extends AssignmentNode {
         assignable.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</assignment>");
     }
+
+    public String getVariable() {
+        return variable.toString();
+    }
+
+    public String getAssignable() {
+        return assignable.toString();
+    }
+
+    @Override
+    public String toString() {
+        return variable + " = " + assignable;
+    }
 }

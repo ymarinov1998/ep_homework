@@ -2,6 +2,7 @@ package ast.statements.compound_statements.for_statement;
 
 import ast.code_structure.BlockNode;
 import ast.statements.StatementNode;
+import ast.variables.VariableDefinitionNode;
 
 public class ForNode extends StatementNode {
     private final ForInitNode forInit;
@@ -24,5 +25,16 @@ public class ForNode extends StatementNode {
         forLoop.printNode(tabCount + 1);
         block.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</for>");
+    }
+
+    @Override
+    public String toString() {
+        return forInit +
+                "\n\twhile " +
+                forCondition +
+                ":" +
+                block.toStringIndented() +
+                "\n\t\t" +
+                forLoop;
     }
 }

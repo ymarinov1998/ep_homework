@@ -13,4 +13,9 @@ public class BoolLiteralNode extends ExpressionNode {
     public void printNode(int tabCount) {
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "<bool: " + value + ">");
     }
+
+    @Override
+    public String toString() {
+        return value.substring(0, 1).toUpperCase() + value.substring(1);
+    }
 }

@@ -24,4 +24,9 @@ public class ForeachNode extends StatementNode {
         block.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</for each>");
     }
+
+    @Override
+    public String toString() {
+        return "for " + typedVariable.getVariableName() + " in " + simpleVariable + block.toStringIndented();
+    }
 }

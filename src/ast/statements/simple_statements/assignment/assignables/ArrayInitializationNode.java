@@ -19,4 +19,9 @@ public class ArrayInitializationNode extends AssignableNode {
         expression.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</array initialization>");
     }
+
+    @Override
+    public String toString() {
+        return "[0]*(" + expression + ")";
+    }
 }

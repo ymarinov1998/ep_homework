@@ -3,6 +3,11 @@ package ast.statements.compound_statements.for_statement;
 import ast.Node;
 import ast.expressions.ExpressionNode;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.beans.Expression;
+
 public class ForConditionNode implements Node {
     private final ExpressionNode expression;
 
@@ -15,5 +20,10 @@ public class ForConditionNode implements Node {
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "<condition>");
         expression.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</condition>");
+    }
+
+    @Override
+    public String toString() {
+        return expression.toString();
     }
 }

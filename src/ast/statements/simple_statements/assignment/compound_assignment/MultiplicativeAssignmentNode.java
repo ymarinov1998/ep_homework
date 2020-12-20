@@ -20,4 +20,9 @@ public class MultiplicativeAssignmentNode extends AssignmentNode {
         assignable.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</multiplicative assignment>");
     }
+
+    @Override
+    public String toString() {
+        return variable + " *= " + assignable;
+    }
 }

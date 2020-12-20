@@ -21,4 +21,15 @@ public class FunctionCallNode extends ExpressionNode {
             actualParameters.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</function call>");
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(functionName).append("(");
+        if (actualParameters != null) {
+            sb.append(actualParameters);
+        }
+        sb.append(")");
+        return sb.toString();
+    }
 }

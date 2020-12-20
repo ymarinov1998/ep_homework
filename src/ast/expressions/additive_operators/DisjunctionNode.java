@@ -18,4 +18,9 @@ public class DisjunctionNode extends ExpressionNode {
         right.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</disjunction>");
     }
+
+    @Override
+    public String toString() {
+        return left + " or " + right;
+    }
 }

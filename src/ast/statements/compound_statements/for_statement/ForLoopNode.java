@@ -16,4 +16,9 @@ public class ForLoopNode implements Node {
         statement.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "<loop>");
     }
+
+    @Override
+    public String toString() {
+        return statement.toString();
+    }
 }

@@ -39,4 +39,15 @@ public class IfNode extends StatementNode {
             elseStatement.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</if>");
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("if ").append(expression).append(":").append(block.toStringIndented());
+        if (elseIfStatements != null)
+            elseIfStatements.forEach(elseIfStatement -> sb.append("\n\t").append(elseIfStatement));
+        if (elseStatement != null)
+            sb.append("\n\t").append(elseStatement);
+        return sb.toString();
+    }
 }

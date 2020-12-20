@@ -19,4 +19,13 @@ public class ProgramNode implements Node {
         functionDefinitions.forEach(function -> function.printNode(tabCount + 1));
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</program>");
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("from typing import *\n\n");
+        functionDefinitions.forEach(sb::append);
+        return sb.toString() ;
+    }
+
 }

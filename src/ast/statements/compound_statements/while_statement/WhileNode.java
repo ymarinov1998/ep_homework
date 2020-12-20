@@ -20,4 +20,9 @@ public class WhileNode extends StatementNode {
         block.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</while>");
     }
+
+    @Override
+    public String toString() {
+        return "while " + expression + ":" + block.toStringIndented();
+    }
 }

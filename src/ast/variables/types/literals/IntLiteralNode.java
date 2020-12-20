@@ -13,4 +13,9 @@ public class IntLiteralNode extends ExpressionNode {
     public void printNode(int tabCount) {
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "<int: " + value + ">");
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

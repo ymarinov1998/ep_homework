@@ -25,4 +25,9 @@ public class ConditionalExpressionNode extends ExpressionNode {
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount + 1)), "</else expression>");
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</conditional expression>");
     }
+
+    @Override
+    public String toString() {
+        return ifExpr + " if " + condition + " else " + elseExpr;
+    }
 }

@@ -39,6 +39,8 @@ public class LexerImpl implements Lexer<TokenType> {
                     return handleTwoCharacterOperation(TokenType.DIV, TokenType.ASSIGNMENT_QUOT);
                 case '=':
                     return handleTwoCharacterOperation(TokenType.BECOMES, TokenType.EQUAL);
+                case '!':
+                    return handleNotEqual();
                 case '<':
                     return handleTwoCharacterOperation(TokenType.LESS_THAN, TokenType.LESS_THAN_OR_EQUAL);
                 case '>':
@@ -66,6 +68,14 @@ public class LexerImpl implements Lexer<TokenType> {
             }
         }
         return null;
+    }
+
+    private Token<TokenType> handleNotEqual() {
+        scanner.readNextCharacter();
+        if (scanner.getCurrentCharacter() == '=')
+            return BuildTokenAndAdvance(TokenType.NOTEQUAL);
+        else
+            return BuildToken(TokenType.OTHER, "!");
     }
 
     private boolean isDigit(char currentCharacter) {
@@ -122,7 +132,7 @@ public class LexerImpl implements Lexer<TokenType> {
         try {
             Integer.parseInt(digitString.toString());
         } catch (NumberFormatException exception) {
-            throw new LexicalException("Not a valid integer " + digitString.toString() + "." ,
+            throw new LexicalException("Not a valid integer " + digitString.toString() + ".",
                     scanner.getCurrentLine(),
                     scanner.getCurrentPosition(),
                     exception);

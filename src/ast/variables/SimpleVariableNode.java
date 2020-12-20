@@ -11,4 +11,9 @@ public class SimpleVariableNode extends VariableNode {
     public void printNode(int tabCount) {
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "<variable: " + variableName + ">");
     }
+
+    @Override
+    public String toString() {
+        return variableName;
+    }
 }

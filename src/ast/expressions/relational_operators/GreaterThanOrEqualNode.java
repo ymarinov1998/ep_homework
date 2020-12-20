@@ -18,4 +18,9 @@ public class GreaterThanOrEqualNode extends ExpressionNode {
         right.printNode(tabCount + 1);
         System.out.printf("%s%s%n", "\t".repeat(Math.max(0, tabCount)), "</greater than or equal>");
     }
+
+    @Override
+    public String toString() {
+        return left + " >= " + right;
+    }
 }
