@@ -94,11 +94,13 @@ public enum TokenType {
         return assignmentTerminals.contains(tokenType);
     }
 
+    public static boolean isEqualityOperator(TokenType tokenType) {
+        return tokenType.equals(EQUAL) || tokenType.equals(NOTEQUAL);
+    }
+
     private static final Set<TokenType> relationalOperators = new HashSet<>();
 
     static {
-        relationalOperators.add(EQUAL);
-        relationalOperators.add(NOTEQUAL);
         relationalOperators.add(LESS_THAN);
         relationalOperators.add(LESS_THAN_OR_EQUAL);
         relationalOperators.add(GREATER_THAN);
@@ -111,10 +113,6 @@ public enum TokenType {
 
     public static boolean isAdditiveOperator(TokenType tokenType) {
         return tokenType.equals(PLUS) || tokenType.equals(MINUS);
-    }
-
-    public static boolean isUnaryOperator(TokenType tokenType) {
-        return tokenType.equals(NOT) || tokenType.equals(MINUS);
     }
 
     public static boolean isMultiplicativeOperator(TokenType tokenType) {

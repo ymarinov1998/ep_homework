@@ -3,6 +3,7 @@ package parser;
 import ast.code_structure.BlockNode;
 import ast.code_structure.FunctionDefinitionNode;
 import ast.code_structure.ProgramNode;
+import ast.expressions.ConditionalExpressionNode;
 import ast.expressions.ExpressionNode;
 import ast.expressions.FunctionCallNode;
 import ast.code_structure.parameters.ActualParametersNode;
@@ -18,8 +19,7 @@ import ast.statements.simple_statements.assignment.compound_assignment.DivisiveA
 import ast.statements.simple_statements.assignment.compound_assignment.MultiplicativeAssignmentNode;
 import ast.statements.simple_statements.assignment.compound_assignment.SubtractiveAssignmentNode;
 import ast.statements.simple_statements.assignment.simple_assignment.SimpleAssignmentNode;
-import ast.statements.simple_statements.return_statement.ConditionalReturnNode;
-import ast.statements.simple_statements.return_statement.SimpleReturnNode;
+import ast.statements.simple_statements.return_statement.ReturnNode;
 import ast.variables.*;
 import ast.expressions.additive_operators.AdditionNode;
 import ast.expressions.additive_operators.DisjunctionNode;
@@ -27,7 +27,6 @@ import ast.expressions.additive_operators.SubtractionNode;
 import ast.variables.types.TypeNode;
 import ast.variables.types.literals.BoolLiteralNode;
 import ast.variables.types.literals.IntLiteralNode;
-import ast.expressions.multiplicative_operators.ConjunctionNode;
 import ast.expressions.multiplicative_operators.DivisionNode;
 import ast.expressions.multiplicative_operators.MultiplicationNode;
 import ast.expressions.unary_operators.InversionNode;
@@ -184,7 +183,6 @@ public class ParserImpl {
         return new WhileNode(expression(), block());
     }
 
-    //TODO: Generalize FOR LOOP expressions
     private StatementNode forStatement() {
         accept(TokenType.FOR);
         if (currentToken.getTokenType().equals(TokenType.LPAREN)) {
@@ -264,16 +262,7 @@ public class ParserImpl {
 
     private StatementNode returnStatement() {
         accept(TokenType.RETURN);
-        var returnValue = expression();
-        if (currentToken.getTokenType().equals(TokenType.IF)) {
-            accept(TokenType.IF);
-            var ifCondition = expression();
-            accept(TokenType.ELSE);
-            var elseReturnValue = expression();
-            return new ConditionalReturnNode(ifCondition, returnValue, elseReturnValue);
-        } else {
-            return new SimpleReturnNode(returnValue);
-        }
+        return new ReturnNode(expression());
     }
 
     private VariableNode variable() {
@@ -354,66 +343,105 @@ public class ParserImpl {
     }
 
     private ExpressionNode expression() {
-        ExpressionNode expressionNode = simpleExpression();
+        ExpressionNode expressionNode = disjunction();
+        var currentTokenType = currentToken.getTokenType();
+        if (currentTokenType.equals(TokenType.IF)) {
+            accept(TokenType.IF);
+            ExpressionNode conditionNode = disjunction();
+            accept(TokenType.ELSE);
+            return new ConditionalExpressionNode(expressionNode, conditionNode, disjunction());
+        }
+        return expressionNode;
+    }
+
+    private ExpressionNode disjunction() {
+        ExpressionNode expressionNode = conjunction();
+        var currentTokenType = currentToken.getTokenType();
+        if (currentTokenType.equals(TokenType.OR)) {
+            accept(currentTokenType);
+            return new DisjunctionNode(expressionNode, disjunction());
+        }
+        return expressionNode;
+    }
+
+    private ExpressionNode conjunction() {
+        ExpressionNode expressionNode = equality();
+        var currentTokenType = currentToken.getTokenType();
+        if (currentTokenType.equals(TokenType.AND)) {
+            accept(currentTokenType);
+            return new DisjunctionNode(expressionNode, conjunction());
+        }
+        return expressionNode;
+    }
+
+    private ExpressionNode equality() {
+        ExpressionNode expressionNode = relation();
+        var currentTokenType = currentToken.getTokenType();
+        if (TokenType.isEqualityOperator(currentTokenType)) {
+            accept(currentTokenType);
+            switch (currentTokenType) {
+                case EQUAL -> expressionNode = new EqualNode(expressionNode, equality());
+                case NOTEQUAL -> expressionNode = new NotEqualNode(expressionNode, equality());
+            }
+        }
+        return expressionNode;
+    }
+
+    private ExpressionNode relation() {
+        ExpressionNode expressionNode = arithmeticOperation();
         var currentTokenType = currentToken.getTokenType();
         if (TokenType.isRelationalOperator(currentTokenType)) {
-            accept(currentToken.getTokenType());
+            accept(currentTokenType);
             switch (currentTokenType) {
-                case EQUAL -> expressionNode = new EqualNode(expressionNode, simpleExpression());
-                case NOTEQUAL -> expressionNode = new NotEqualNode(expressionNode, simpleExpression());
-                case LESS_THAN -> expressionNode = new LessThanNode(expressionNode, simpleExpression());
-                case LESS_THAN_OR_EQUAL -> expressionNode = new LessThanOrEqualNode(expressionNode, simpleExpression());
-                case GREATER_THAN -> expressionNode = new GreaterThanNode(expressionNode, simpleExpression());
-                case GREATER_THAN_OR_EQUAL -> expressionNode = new GreaterThanOrEqualNode(expressionNode, simpleExpression());
+                case LESS_THAN -> expressionNode = new LessThanNode(expressionNode, relation());
+                case LESS_THAN_OR_EQUAL -> expressionNode = new LessThanOrEqualNode(expressionNode, relation());
+                case GREATER_THAN -> expressionNode = new GreaterThanNode(expressionNode, relation());
+                case GREATER_THAN_OR_EQUAL -> expressionNode = new GreaterThanOrEqualNode(expressionNode, relation());
             }
         }
         return expressionNode;
     }
 
-    private ExpressionNode simpleExpression() {
-        ExpressionNode expressionNode = signedTerm();
+    private ExpressionNode arithmeticOperation() {
+        ExpressionNode expressionNode = term();
         var currentTokenType = currentToken.getTokenType();
-        if (TokenType.isAdditiveOperator(currentTokenType) || currentTokenType.equals(TokenType.OR)) {
-            accept(currentToken.getTokenType());
+        if (TokenType.isAdditiveOperator(currentTokenType)) {
+            accept(currentTokenType);
             switch (currentTokenType) {
-                case PLUS -> expressionNode = new AdditionNode(expressionNode, signedTerm());
-                case MINUS -> expressionNode = new SubtractionNode(expressionNode, signedTerm());
-                case OR -> expressionNode = new DisjunctionNode(expressionNode, signedTerm());
+                case PLUS -> expressionNode = new AdditionNode(expressionNode, arithmeticOperation());
+                case MINUS -> expressionNode = new SubtractionNode(expressionNode, arithmeticOperation());
             }
         }
         return expressionNode;
     }
 
-    private ExpressionNode signedTerm() {
-        ExpressionNode expressionNode = null;
-        var currentTokenType = currentToken.getTokenType();
-        if (TokenType.isUnaryOperator(currentTokenType)) {
-            accept(currentToken.getTokenType());
-            switch (currentTokenType) {
-                case MINUS -> expressionNode = new MinusNode(term());
-                case NOT -> expressionNode = new InversionNode(term());
-            }
-        } else
-            expressionNode = term();
-        return expressionNode;
-    }
-
-    //TODO: Figure out if it should be factor() or signedTerm()
     private ExpressionNode term() {
         ExpressionNode expressionNode = factor();
         var currentTokenType = currentToken.getTokenType();
-        if (TokenType.isMultiplicativeOperator(currentTokenType) || currentTokenType.equals(TokenType.AND)) {
-            accept(currentToken.getTokenType());
+        if (TokenType.isMultiplicativeOperator(currentTokenType)) {
+            accept(currentTokenType);
             switch (currentTokenType) {
-                case MUL -> expressionNode = new MultiplicationNode(expressionNode, signedTerm());
-                case DIV -> expressionNode = new DivisionNode(expressionNode, signedTerm());
-                case AND -> expressionNode = new ConjunctionNode(expressionNode, signedTerm());
+                case MUL -> expressionNode = new MultiplicationNode(expressionNode, term());
+                case DIV -> expressionNode = new DivisionNode(expressionNode, term());
             }
         }
         return expressionNode;
     }
 
     private ExpressionNode factor() {
+        switch (currentToken.getTokenType()) {
+            case NOT:
+                accept(TokenType.NOT);
+                return new InversionNode(factorVariant());
+            case MINUS:
+                accept(TokenType.MINUS);
+                return new MinusNode(factorVariant());
+            default:
+                return factorVariant();
+        }
+    }
+
+    private ExpressionNode factorVariant() {
         ExpressionNode expressionNode;
         switch (currentToken.getTokenType()) {
             case IDENTIFIER -> {

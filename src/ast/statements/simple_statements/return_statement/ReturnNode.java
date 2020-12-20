@@ -3,11 +3,11 @@ package ast.statements.simple_statements.return_statement;
 import ast.expressions.ExpressionNode;
 import ast.statements.StatementNode;
 
-public class SimpleReturnNode extends StatementNode {
+public class ReturnNode extends StatementNode {
 
     private final ExpressionNode returnValue;
 
-    public SimpleReturnNode(ExpressionNode returnValue) {
+    public ReturnNode(ExpressionNode returnValue) {
         this.returnValue = returnValue;
     }
 

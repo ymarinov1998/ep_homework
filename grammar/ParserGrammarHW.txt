@@ -18,17 +18,18 @@ while_statement -> WHILE expression block
 for_statement -> FOR ( LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN | type IDENTIFIER IN IDENTIFIER ) block
 switch_statement -> SWITCH LPAREN variable RPAREN LBRACKET ( CASE expression block )* DEFAULT block RBRACKET
 variable -> IDENTIFIER | index_variable
-assignable -> array_initialization | expression
-expression -> simple_expression | simple_expression relational_operator simple_expression
 index_variable -> IDENTIFIER LSQUARE expression RSQUARE
+assignable -> array_initialization | expression
 array_initialization -> primitive_type LSQUARE expression RSQUARE
-simple_expression -> signed_term ( ( additive_operator | OR )) signed_term)*
+expression -> disjunction ( IF disjunction ELSE disjunction )?
+disjunction -> conjunction ( OR disjunction )?
+conjunction -> equality ( AND conjunction )?
+equality -> relation ( ( EQUAL | NOT_EQUAL ) equality )?
+relation -> arithmetic_operation ( relational_operator relation )?
+arithmetic_operation -> term ( ( PLUS | MINUS ) arithmetic_operation )?
+term -> factor ( ( MUL | DIV ) term )?
+factor -> ( NOT | MINUS )? factor_variant
+factor_variant -> variable | INT_LITERAL | BOOLEAN_LITERAL | LPAREN expression RPAREN | function_call
 relational_operator -> EQUAL | NOT_EQUAL | GREATER_THAN | LESS_THAN | GREATER_THAN_OR_EQUAL | LESS_THAN_OR_EQUAL
-signed_term -> (unary_operator)? term
-additive_operator -> PLUS | MINUS
-unary_operator -> NOT | MINUS
-term -> factor ( ( multiplicative_operator | AND ) ) signed_term
-factor -> variable | INT_LITERAL | BOOLEAN_LITERAL | LPAREN expression RPAREN | function_call
-multiplicative_operator -> MUL | DIV
 function_call -> IDENTIFIER LPAREN ( actual_parameters )? RPAREN
 actual_parameters -> expression ( COMMA expression )*
