@@ -2,7 +2,6 @@ package ast.statements.compound_statements.for_statement;
 
 import ast.code_structure.BlockNode;
 import ast.statements.StatementNode;
-import ast.variables.VariableDefinitionNode;
 
 public class ForNode extends StatementNode {
     private final ForInitNode forInit;

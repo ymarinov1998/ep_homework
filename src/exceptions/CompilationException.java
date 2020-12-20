@@ -11,6 +11,6 @@ public class CompilationException extends RuntimeException {
     }
 
     private static String addLineAndPosition(String message, int line, int position) {
-        return String.format("%s at line %d, position %d.",message,line,position);
+        return String.format("%s at line %d, position %d.", message, line, position);
     }
 }

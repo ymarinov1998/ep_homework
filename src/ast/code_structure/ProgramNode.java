@@ -1,7 +1,6 @@
 package ast.code_structure;
 
 import ast.Node;
-import ast.code_structure.FunctionDefinitionNode;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ProgramNode implements Node {
         StringBuilder sb = new StringBuilder();
         sb.append("from typing import *\n\n");
         functionDefinitions.forEach(sb::append);
-        return sb.toString() ;
+        return sb.toString();
     }
 
 }

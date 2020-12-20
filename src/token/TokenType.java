@@ -120,7 +120,8 @@ public enum TokenType {
     }
 
     private static final Set<TokenType> factorTerminal = new HashSet<>();
-    static{
+
+    static {
         factorTerminal.add(IDENTIFIER);
         factorTerminal.add(INT_LITERAL);
         factorTerminal.add(LPAREN);

@@ -3,11 +3,6 @@ package ast.statements.compound_statements.for_statement;
 import ast.Node;
 import ast.expressions.ExpressionNode;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.beans.Expression;
-
 public class ForConditionNode implements Node {
     private final ExpressionNode expression;
 

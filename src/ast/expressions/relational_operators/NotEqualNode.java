@@ -4,7 +4,7 @@ import ast.expressions.ExpressionNode;
 
 public class NotEqualNode extends ExpressionNode {
     private final ExpressionNode left;
-    private ExpressionNode right;
+    private final ExpressionNode right;
 
     public NotEqualNode(ExpressionNode left, ExpressionNode right) {
         this.left = left;

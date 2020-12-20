@@ -8,6 +8,7 @@ import ast.expressions.ExpressionNode;
 import ast.expressions.FunctionCallNode;
 import ast.code_structure.parameters.ActualParametersNode;
 import ast.code_structure.parameters.FormalParameterNode;
+import ast.expressions.multiplicative_operators.ConjunctionNode;
 import ast.expressions.relational_operators.*;
 import ast.statements.compound_statements.for_statement.*;
 import ast.statements.compound_statements.switch_statement.CaseNode;
@@ -370,7 +371,7 @@ public class ParserImpl {
         var currentTokenType = currentToken.getTokenType();
         if (currentTokenType.equals(TokenType.AND)) {
             accept(currentTokenType);
-            return new DisjunctionNode(expressionNode, conjunction());
+            return new ConjunctionNode(expressionNode, conjunction());
         }
         return expressionNode;
     }
@@ -486,7 +487,7 @@ public class ParserImpl {
     }
 
     public static void main(String[] args) throws IOException {
-        InputScanner scanner = new InputScannerImpl("resources/test.txt");
+        InputScanner scanner = new InputScannerImpl("resources/parser_test.txt");
         Lexer<TokenType> lexer = new LexerImpl(scanner);
         ParserImpl parser = new ParserImpl(lexer);
         parser.tryParse();

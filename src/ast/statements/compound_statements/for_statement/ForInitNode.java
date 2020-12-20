@@ -2,7 +2,6 @@ package ast.statements.compound_statements.for_statement;
 
 import ast.Node;
 import ast.statements.StatementNode;
-import ast.variables.VariableDefinitionNode;
 
 public class ForInitNode implements Node {
 

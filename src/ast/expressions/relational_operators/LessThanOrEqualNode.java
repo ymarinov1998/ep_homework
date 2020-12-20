@@ -4,7 +4,7 @@ import ast.expressions.ExpressionNode;
 
 public class LessThanOrEqualNode extends ExpressionNode {
     private final ExpressionNode left;
-    private ExpressionNode right;
+    private final ExpressionNode right;
 
     public LessThanOrEqualNode(ExpressionNode left, ExpressionNode right) {
         this.left = left;
